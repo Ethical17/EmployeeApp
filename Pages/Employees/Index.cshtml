@@ -1,0 +1,59 @@
+﻿@page
+@model EmployeeApi.Pages.Employees.IndexModel
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h2>Employees</h2>
+
+<div class="mb-3">
+    <a asp-page="Create" class="btn btn-primary">➕ Add Employee</a>
+</div>
+
+<form method="get">
+    <input type="text" name="search" value="@Model.CurrentFilter" placeholder="Search..." class="form-control w-25 d-inline" />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-page="Index" class="btn btn-secondary">Reset</a>
+</form>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-search="@Model.CurrentFilter">Name</a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DobSort" asp-route-search="@Model.CurrentFilter">DOB</a>
+            </th>
+            <th>Address</th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DeptSort" asp-route-search="@Model.CurrentFilter">Department</a>
+            </th>
+            <th>Picture</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model.Employees)
+        {
+            <tr>
+                <td>@e.Name</td>
+                <td>@e.DOB.ToShortDateString()</td>
+                <td>@e.Address</td>
+                <td>@e.Department?.Name</td>
+                <td>
+                    @if (e.Picture != null)
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(e.Picture)" width="60" height="60" />
+                    }
+                </td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@e.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@e.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Export" asp-route-search="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort" class="btn btn-success">Export to Excel</a>
