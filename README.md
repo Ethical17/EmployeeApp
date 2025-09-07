@@ -17,7 +17,3 @@ CRUD Operations (Add, Edit, Delete Employees)
  Picture Upload (JPG/PNG stored in DB as varbinary)
  Export filtered/sorted employees to Excel
  REST API + Razor Pages Frontend (can be used independently)
-
-
-dotnet ef migrations add InitialCreate
-dotnet ef database update
